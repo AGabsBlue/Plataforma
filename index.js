@@ -10,8 +10,12 @@ app.get("/", function (req, res) {
        
 });
 
-app.get("/perguntar", (req,res) => {
+app.get("/perguntar", (req, res) => {
     res.render("perguntar"); //Para ele renderizar a view perguntar
+});
+
+app.post("/salvarpergunta", (req, res) => {
+    res.send("Formulário recebido!");
 });
 
 app.listen(8080, () => {
