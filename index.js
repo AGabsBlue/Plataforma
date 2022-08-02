@@ -10,6 +10,10 @@ app.get("/", function (req, res) {
        
 });
 
+app.get("/perguntar", (req,res) => {
+    res.render("perguntar"); //Para ele renderizar a view perguntar
+});
+
 app.listen(8080, () => {
     console.log("App rodando");
 });
