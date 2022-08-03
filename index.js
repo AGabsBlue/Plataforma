@@ -1,12 +1,20 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const connection = require("./database/database");
+
+//DATABASE
+connection.authenticate().then(() => {
+    console.log("Conexão feita com o banco de dados");
+}).catch((msgErro) => {
+    console.log(msgErro);
+});
 
 app.set('view engine', 'ejs'); //Eu to dizendo para o express usar o EJS como engine(motor)
 app.use(express.static('public'));
 
 //BODY PARSER
-app.use(bodyParser.urlencoded({extended: false})) //Esse comando aqui vai decodificar os dados usados pelo formulario
+app.use(bodyParser.urlencoded({extended: false})); //Esse comando aqui vai decodificar os dados usados pelo formulario
 app.use(bodyParser.json()); //Permite ler dados de formulario enviados via JSON
 
 //ROTAS
