@@ -20,7 +20,9 @@ app.use(bodyParser.json()); //Permite ler dados de formulario enviados via JSON
 
 //ROTAS
 app.get("/", function (req, res) {
-    Pergunta.findAll({raw: true}).then(perguntas => { //raw é para fazer uma pesquisa crua, trazendo só os dados necessarios!
+    Pergunta.findAll({raw: true, order: [
+        ['id','DESC'] //Coloquei um Array no order para ordenar minhas perguntas pelo ID de forma Decrescente 
+    ]}).then(perguntas => { //raw é para fazer uma pesquisa crua, trazendo só os dados necessarios!
         res.render("index", {
             perguntas: perguntas
         }); //Quando uso render, ele automaticamente pega o arquivo da pasta views

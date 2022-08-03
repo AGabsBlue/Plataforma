@@ -8,7 +8,7 @@ const Pergunta = connection.define('pergunta', { // Variavel = Chamo minha conex
     },
     descricao:{
         type: Sequelize.TEXT, //TEXT são texto longos
-        
+        //allowNull : false 
     }
 
 });
