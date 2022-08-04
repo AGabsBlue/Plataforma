@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
 const Pergunta = require("./database/Pergunta");
+const Resposta = require("./database/Resposta");
 
 //DATABASE
 connection.authenticate().then(() => {
@@ -54,13 +55,31 @@ app.get("/pergunta/:id", (req, res) => {
         where: {id: id}
     }).then(pergunta => {
         if(pergunta != undefined){//pergunta achada
-            res.render("pergunta", {
-                pergunta: pergunta //Estou mandano a pergunta encontrada para minha View!
+
+            Resposta.findAll({
+                where: {perguntaId : pergunta.id},
+                order: [['id', 'DESC']] //Pesquisando respostas que tenham pergunta id igual o id da pagina
+            }).then(respostas => { //Campo que recebe um Array com todas as perguntas
+                res.render("pergunta", {
+                    pergunta: pergunta, //Estou mandano a pergunta encontrada para minha View!
+                    respostas: respostas
+                });
             });
         }
         else{ //Pergunta não encotrada!
             res.redirect("/");
         }
+    });
+});
+app.post("/responder", (req, res) => {
+    var corpo = req.body.corpo;
+    var perguntaId = req.body.perguntaId;
+
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(() => {
+        res.redirect("/pergunta/"+perguntaId) //Estou redirecionando a pagina da pergunta 
     });
 });
 
